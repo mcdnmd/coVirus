@@ -31,26 +31,43 @@ namespace _3DGame
                 Alive = false;
             if (Alive)
             {
-                var xDirection = random.NextDouble();
-                var yDirection = Math.Sqrt(1 - xDirection * xDirection);
-                DirectionVector = new PointF((float)xDirection, (float)yDirection);
-                float X = Location.X;
-                float Y = Location.Y;
-                if (Map.TileMap[(int)(Location.X + DirectionVector.X * MoveSpeed), (int)Location.Y] != 1)
-                    X = Location.X + (float)(DirectionVector.X * MoveSpeed);
-                if (Map.TileMap[(int)Location.X, (int)(Location.Y + DirectionVector.Y * MoveSpeed)] != 1)
-                    Y = Location.Y + (float)(DirectionVector.Y * MoveSpeed);
-                //var displacement = GetDisplacement();
-                //MakeMovement(displacement[0], displacement[1]);
-                //var distance = new Point(Game.player.Location.X - Location.X, Game.player.Location.Y - Location.Y);
-                //var playerDistance = Math.Sqrt(distance.X * distance.X + distance.Y * distance.Y);
-                //if (playerDistance <= DamageDistance)
-                //    GiveDamage(Game.player);
-                //Game.AliveActors.Enqueue(this);
-                Location = new PointF(X, Y);
+                Move();
                 Game.AliveActors.Enqueue(this);
                 return;
             }
+        }
+
+        private void Move()
+        {
+            double xDes, yDes;
+            var rush = random.Next(1, 10);
+            if (rush > 8)
+            {
+                var minusX = random.NextDouble();
+                var minusY = random.NextDouble();
+                xDes = random.NextDouble();
+                yDes = Math.Sqrt(1 - xDes * xDes);
+                if (minusX < 0.5d)
+                    xDes *= (-1);
+                if (minusY < 0.5d)
+                    yDes *= (-1);
+            }
+            else
+            {
+                xDes = Game._Player.Location.X - Location.X;
+                yDes = Game._Player.Location.Y - Location.Y;
+                var desLength = Math.Sqrt(xDes * xDes + yDes * yDes);
+                xDes = (float)(xDes / desLength);
+                yDes = (float)(yDes / desLength);
+            }
+            DirectionVector = new PointF((float)xDes, (float)yDes);
+            float X = Location.X;
+            float Y = Location.Y;
+            if (Map.TileMap[(int)(Location.X + DirectionVector.X * MoveSpeed), (int)Location.Y] != 1)
+                X = Location.X + (float)(DirectionVector.X * MoveSpeed);
+            if (Map.TileMap[(int)Location.X, (int)(Location.Y + DirectionVector.Y * MoveSpeed)] != 1)
+                Y = Location.Y + (float)(DirectionVector.Y * MoveSpeed);
+            Location = new PointF(X, Y);
         }
 
         private void GiveDamage(IEntity player)

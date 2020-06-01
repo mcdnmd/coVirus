@@ -44,10 +44,7 @@ namespace _3DGame
                     {
                         case Command.Esc:
                             if (GameOn)
-                                if (GameMenuOn)
-                                    GameMenuOn = false;
-                                else
-                                    GameMenuOn = true;
+                                GameMenuOn = true;
                             break;
                     }
         }

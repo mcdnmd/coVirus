@@ -26,8 +26,8 @@ namespace _3DGame
             Commands = new Queue<Command>();
             Health = 100;
             Alive = true;
-            MoveSpeed = 0.5d;
-            RotationSpeed = 0.3d;
+            MoveSpeed = 0.6d;
+            RotationSpeed = 0.6d;
             Weapon = null;
         }
 
