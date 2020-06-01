@@ -27,7 +27,7 @@ namespace _3DGame
             Health = 100;
             Alive = true;
             MoveSpeed = 0.6d;
-            RotationSpeed = 0.6d;
+            RotationSpeed = 0.4d;
             Weapon = null;
         }
 

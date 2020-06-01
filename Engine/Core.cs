@@ -15,7 +15,7 @@ namespace _3DGame
 
         public static void InitCore(int width, int height)
         {
-            CPUNumber = 4;
+            CPUNumber = Environment.ProcessorCount;
             LocalBufferSize = width / CPUNumber;
             ScreenWidth = width;
             ScreenHeight = height;

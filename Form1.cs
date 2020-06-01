@@ -15,7 +15,7 @@ namespace _3DGame
 {
     public partial class Form1 : Form
     {
-        private int MaxFPS = 50;
+        private int MaxFPS = 60;
         private Timer timer = new Timer();
         private Stopwatch stopwatch;
 
