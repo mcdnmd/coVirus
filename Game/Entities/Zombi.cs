@@ -41,7 +41,7 @@ namespace _3DGame
         {
             double xDes, yDes;
             var rush = random.Next(1, 10);
-            if (rush > 8)
+            if (rush > 5)
             {
                 var minusX = random.NextDouble();
                 var minusY = random.NextDouble();
