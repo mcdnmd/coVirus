@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace _3DGame
 {
-    public static class Ray
+    public class Ray
     {
-        public static double DirectionX;
-        public static double DirectionY;
-        public static float DirX0;
-        public static float DirX1;
-        public static float DirY0;
-        public static float DirY1;
+        public double DirectionX;
+        public double DirectionY;
+        public float DirX0;
+        public float DirX1;
+        public float DirY0;
+        public float DirY1;
     }
 }

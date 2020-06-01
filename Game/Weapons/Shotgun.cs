@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -10,55 +11,52 @@ namespace _3DGame
     public class Shotgun : IWeapon, IEntity
     {
         public int Damage { get; set; }
-        public int SpreadField { get; set; }
+        public int StartStrip { get; set; }
+        public int EndStrip { get; set; }
         public int DamageDistance { get; set; }
         public int Ammo { get; set; }
         public int MaxAmmo { get; set; }
         public PointF Location { get; set; }
         public int Health { get; set; }
         public bool Alive { get; set; }
-        private double Norma;
+        private List<IEntity> Enemies;
+        private Stopwatch wathc;
 
         public Shotgun(int x, int y)
         {
             Damage = 9000;
-            SpreadField = 40;
             DamageDistance = 60;
             Ammo = 10;
             MaxAmmo = 50;
             Location = new PointF(x, y);
             Health = int.MinValue;
             Alive = false;
-            CalculateVectorNorma();
+            var FOSProjection = (int) Core.ScreenWidth * 0.6;
+            StartStrip = (int)((Core.ScreenWidth - FOSProjection) / 2);
+            EndStrip = Core.ScreenWidth - StartStrip + 1;
+            Enemies = new List<IEntity>();
+            wathc = new Stopwatch();
+            wathc.Start();
         }
 
         public void Shot()
         {
-            if (Ammo <= 0)
+            wathc.Stop();
+            if (Ammo <= 0 || wathc.Elapsed.TotalSeconds < 2)
                 return;
+            wathc.Restart();
             Ammo--;
             FindEnemyInSpreadField();
+            foreach (var enemy in Enemies)
+                GiveDamge(enemy);
 
         }
 
         private void FindEnemyInSpreadField()
         {
-            foreach(var enemy in Game.AliveActors)
-                if (enemy is Zombi)
-                    if (EnemyInSpreadField(enemy))
-                        GiveDamge(enemy);
+            Enemies = EnemyCast.CastedEnemies;
         }
         
-
-        private bool EnemyInSpreadField(IEntity enemy)
-        {
-            return false;
-        }
-
-        private void CalculateVectorNorma()
-        {
-            return;
-        }
 
         public void GiveDamge(IEntity enemy)
         {

@@ -5,5 +5,6 @@
     KeyLeft,
     KeyRight,
     MouseLeft,
-    MouseRight
+    MouseRight,
+    Esc
 }

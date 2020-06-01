@@ -12,30 +12,17 @@ namespace _3DGame
     {
         private static Graphics ScreenGraphics;
         public static int FieldOfView = 60;
-        public static int ScreenWidth { get; private set; }
-        public static int ScreenHeight { get; private set; }
-        public static Bitmap Buffer;
+        public static List<Bitmap> Buffer;
+        public static double[] ZBuffer;
         public static Dictionary<string, Bitmap> Textures;
         public static int TextureSize = 64;
 
-
-
-        private static SolidBrush brush;
-
-        public static void InitScreenRender(int width, int height)
+        public static void InitScreenRender()
         {
-            ScreenWidth = width;
-            ScreenHeight = height;
-            Buffer = new Bitmap(ScreenWidth, ScreenHeight);
+            ZBuffer = new double[Core.ScreenWidth];
+            Buffer = new List<Bitmap>();
             Textures = new Dictionary<string, Bitmap>();
             LoadTextures();
-        }
-
-        public static void Raycasting(PaintEventArgs e)
-        {
-            ScreenGraphics = e.Graphics;
-            Raycast.Cast();
-            //Raycast.ParallelCast();
         }
 
         public static void Clear(PaintEventArgs e)
@@ -43,51 +30,63 @@ namespace _3DGame
             e.Graphics.Clear(Color.Black);
         }
 
-        public static void FillPixeledStrip(int x)
+        public static void DrawBuffer(PaintEventArgs e)
         {
-            var lineHeight = (int)(ScreenHeight / Raycast.WallDistance);
-            var drawStart = -lineHeight / 2 + ScreenHeight / 2;
-            if (drawStart < 0)
-                drawStart = 0;
-            int drawEnd = lineHeight / 2 + ScreenHeight / 2;
-            if (drawEnd >= ScreenHeight)
-                drawEnd = ScreenHeight - 1;
-            double wallX;
-            if (Raycast.HittedSide == 0) 
-                wallX = Game._Player.Location.Y + Raycast.WallDistance * Ray.DirectionY;
-            else 
-                wallX = Game._Player.Location.X + Raycast.WallDistance * Ray.DirectionX;
-            wallX -= Math.Floor(wallX);
-            int texX = (int)(wallX * TextureSize);
-            if ((Raycast.HittedSide == 0 && Ray.DirectionX > 0) || (Raycast.HittedSide == 1 && Ray.DirectionY < 0)) 
-                texX = TextureSize - texX - 1;
-            double step = 1.0 * TextureSize / lineHeight;
-            double texPos = (drawStart - ScreenHeight / 2 + lineHeight / 2) * step;
-            for (int y = drawStart; y < drawEnd; y++)
+            ScreenGraphics = e.Graphics;
+            ScreenGraphics.Clear(Color.Black);
+            var start = 0;
+            for (int i = 0; i < Core.CPUNumber; i++)
             {
-                int texY = (int)texPos & (TextureSize - 1);
-                texPos += step;
-                var color = Textures["Wall"].GetPixel(texX,texY);
-                //if (Raycast.HittedSide == 1) 
-                //    color = Color.FromArgb(color.R / 2, color.G / 2, color.B / 2);
-                Buffer.SetPixel(x, y, color);
+                ScreenGraphics.DrawImageUnscaled(Buffer[i], start, 0);
+                start += Core.LocalBufferSize;
             }
+            for (int k = 0; k < Core.CPUNumber; k++)
+                for (int i = 0; i < Core.ScreenHeight; i++)
+                    for (int j = 0; j < Core.LocalBufferSize; j++)
+                        Buffer[k].SetPixel(j, i, Color.Empty);
+            
         }
 
-        public static void DrawBuffer()
+        public static void DrawWeapon()
         {
-            ScreenGraphics.DrawImageUnscaled(Buffer, 0, 0);
-            for (int i = 0; i < ScreenHeight; i++)
-                for (int j = 0; j < ScreenWidth; j++)
-                    Buffer.SetPixel(j, i, Color.Empty);
+            var weaponHeight = (int)(Core.ScreenHeight / 64);
+            var weaponWidth = (int)(Core.ScreenHeight / 64);
+            var drawStartY = Core.ScreenHeight - weaponHeight;
+            var drawEndY = Core.ScreenHeight;
+            var drawStartX = -weaponWidth / 2 + Core.ScreenWidth;
+            var drawEndX = weaponWidth / 2 + Core.ScreenWidth;
+            for (int stripe = drawStartX; stripe < drawEndX; stripe++)
+            {
+                int texX = (256 * (stripe - (-weaponWidth / 2 + Core.ScreenWidth)) * 64 / weaponWidth) / 256;  
+                for (int y = drawStartY; y < drawEndY; y++) //for every pixel of the current stripe
+                {
+                    var texY = 64 / weaponHeight ;
+                    Color color;
+                    if (Game._Player.Weapon is Shotgun)
+                        color = Textures["Shotgun"].GetPixel(texX, texY);
+                    else
+                        color = Textures["Arm"].GetPixel(texX, texY);
+                    var index = stripe / Core.LocalBufferSize;
+                    if (index >= Core.CPUNumber)
+                        index = Core.CPUNumber - 1;
+                    Buffer[index].SetPixel(stripe % Core.LocalBufferSize, y, color);
+                }
+            }
+
+
         }
+
 
         private static void LoadTextures()
         {
             Textures["Wall"] = new Bitmap(Properties.Resources.brick2);
-            Textures["Floor"] = new Bitmap(Properties.Resources.floor);
+            Textures["Floor"] = new Bitmap(Properties.Resources.greystone);
+            Textures["Floor2"] = new Bitmap(Properties.Resources.floor2);
+            Textures["Sky"] = new Bitmap(Properties.Resources.sky1);
+            Textures["Zombi"] = new Bitmap(Properties.Resources.zombi2);
+            Textures["Barrel"] = new Bitmap(Properties.Resources.barrel);
+            Textures["Shotgun"] = new Bitmap(Properties.Resources.bombom1);
+            Textures["Arm"] = new Bitmap(Properties.Resources.arm1);
         }
-
-
     }
 }

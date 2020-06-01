@@ -48,6 +48,8 @@
   <ItemGroup>
     <Compile Include="Controller.cs" />
     <Compile Include="Engine\Camera.cs" />
+    <Compile Include="Engine\Core.cs" />
+    <Compile Include="Engine\EnemyCast.cs" />
     <Compile Include="Engine\Ray.cs" />
     <Compile Include="Engine\Raycast.cs" />
     <Compile Include="Engine\ScreenRender.cs" />
@@ -102,6 +104,37 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\floor.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\floor2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\OCRAEXT.TTF" />
+    <None Include="Resources\sky1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\zombi.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\barrel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\zombi2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bombom1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\arm1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\wood.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\greystone.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

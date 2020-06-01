@@ -16,6 +16,7 @@ namespace _3DGame
         public Queue<Command> Commands;
         public double MoveSpeed;
         public double RotationSpeed;
+        public IWeapon Weapon;
 
         public Player(int x, int y)
         {
@@ -25,14 +26,21 @@ namespace _3DGame
             Commands = new Queue<Command>();
             Health = 100;
             Alive = true;
-            MoveSpeed = 0.4d;
-            RotationSpeed = 0.2d;
+            MoveSpeed = 0.5d;
+            RotationSpeed = 0.3d;
+            Weapon = null;
         }
 
         public void Act()
         {
             HandleCommands();
             Game.AliveActors.Enqueue(this);
+        }
+
+        public void CollectItem()
+        {
+            if (Map.TileMap[(int)Location.X, (int)Location.Y] == (int)Tail.Shotgun)
+                Weapon = (IWeapon) Map.EntityMap[new PointF(Location.X, Location.Y)];
         }
 
         public void HandleCommands()
@@ -75,10 +83,6 @@ namespace _3DGame
             var planeX = (float)(Camera.PlaneVector.X * Math.Cos(angle) - Camera.PlaneVector.Y * Math.Sin(angle));
             var planeY = (float)(Camera.PlaneVector.X * Math.Sin(angle) + Camera.PlaneVector.Y * Math.Cos(angle));
             Camera.PlaneVector = new PointF(planeX, planeY);
-        }
-        public void Draw(Graphics graphics)
-        {
-            graphics.FillEllipse(Brushes.White, new RectangleF(Location.X, Location.Y, 5, 5));
         }
     }
 }
