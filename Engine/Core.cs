@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -26,7 +27,7 @@ namespace _3DGame
         private static void CreatRaycastingAreas()
         {
             RaycastAreas = new Raycast[CPUNumber];
-            // overflow maybe
+            // indexOutOfRange maybe
             for (int i = 0; i < ScreenWidth; i += LocalBufferSize) 
             {
                 ScreenRender.Buffer.Add(new Bitmap(LocalBufferSize, ScreenHeight));
@@ -40,7 +41,20 @@ namespace _3DGame
 
         public static void ParallelScreenRendering(PaintEventArgs e)
         {
-            Parallel.For(0, CPUNumber, index => {
+            //for (int i = 0; i < CPUNumber; i++)
+            //{
+            //    var location = new PointF(Game._Player.Location.X, Game._Player.Location.Y);
+            //    var dirVector = new PointF(Game._Player.DirectionVector.X, Game._Player.DirectionVector.Y);
+            //    var planeVector = new PointF(Camera.PlaneVector.X, Camera.PlaneVector.Y);
+            //    lock (RaycastAreas)
+            //    {
+            //        var th = new Thread(() => RaycastAreas[i].Cast(location, dirVector, planeVector));
+            //        th.Start();
+            //    }
+
+            //}
+            Parallel.For(0, CPUNumber, index =>
+            {
                 var location = new PointF(Game._Player.Location.X, Game._Player.Location.Y);
                 var dirVector = new PointF(Game._Player.DirectionVector.X, Game._Player.DirectionVector.Y);
                 var planeVector = new PointF(Camera.PlaneVector.X, Camera.PlaneVector.Y);

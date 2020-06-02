@@ -48,33 +48,5 @@ namespace _3DGame
                             break;
                     }
         }
-
-        private static void HandlePressedKeys()
-        {
-            if (PressedKeys.Count > 0)
-            {
-                while(PressedKeys.Count > 0)
-                    switch (PressedKeys.Dequeue())
-                    {
-                        case Keys.W:
-                            Game._Player.Commands.Enqueue(Command.KeyUp);
-                            break;
-                        case Keys.S:
-                            Game._Player.Commands.Enqueue(Command.KeyDown);
-                            break;
-                        case Keys.A:
-                            Game._Player.Commands.Enqueue(Command.KeyLeft);
-                            break;
-                        case Keys.D:
-                            Game._Player.Commands.Enqueue(Command.KeyRight);
-                            break;
-                        case Keys.Escape:
-                            MenuOn = true;
-                            break;
-                            // ESC
-
-                    }
-            }
-        }
     }
 }

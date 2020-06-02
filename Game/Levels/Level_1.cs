@@ -21,8 +21,8 @@ namespace _3DGame
             int[] levelGrid =
             {
                 W,W,W,W,W,W,W,W,W,W,W,W,
-                W,O,O,O,O,O,O,O,O,O,O,W,
-                W,O,O,S,O,O,Z,O,O,O,O,W,
+                W,S,O,O,O,O,O,O,O,O,O,W,
+                W,O,O,O,O,O,Z,O,O,O,O,W,
                 W,O,O,O,O,O,O,O,W,O,O,W,
                 W,O,O,W,O,W,O,O,W,O,O,W,
                 W,O,O,W,O,W,W,O,W,O,O,W,

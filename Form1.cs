@@ -15,7 +15,7 @@ namespace _3DGame
 {
     public partial class Form1 : Form
     {
-        private int MaxFPS = 60;
+        private int MaxFPS = 70;
         private Timer timer = new Timer();
         private Stopwatch stopwatch;
 
@@ -57,10 +57,12 @@ namespace _3DGame
                 stopwatch.Restart();
                 Core.ParallelScreenRendering(e);
                 EnemyCast.Cast();
-                ScreenRender.DrawWeapon();
+                //ScreenRender.DrawWeapon();
+                ScreenRender.DrawBackground(e);
                 ScreenRender.DrawBuffer(e);
+                ScreenRender.DrawWeapon();
                 stopwatch.Stop();
-                label1.Text = "FPS: " + (int)(1000 / stopwatch.Elapsed.TotalMilliseconds) + " RenderTime: " + stopwatch.Elapsed.TotalMilliseconds;
+                label1.Text = "FPS: " + (int)(1000 / stopwatch.Elapsed.TotalMilliseconds) + " RenderTime: " + stopwatch.Elapsed.TotalMilliseconds + " Weapon:" + (Game._Player.Weapon is null);
             }
         }
 
@@ -74,8 +76,11 @@ namespace _3DGame
                 Controller.KeyPlayerPressed[Command.KeyLeft] = true;
             if (e.KeyCode == Keys.D)
                 Controller.KeyPlayerPressed[Command.KeyRight] = true;
+            if (e.KeyCode == Keys.Space)
+                Controller.KeyPlayerPressed[Command.Shot] = true;
             if (e.KeyCode == Keys.Escape)
                 Controller.KeySystemPressed[Command.Esc] = true;
+            
         }
 
         protected override void OnKeyUp(KeyEventArgs e)
@@ -88,6 +93,8 @@ namespace _3DGame
                 Controller.KeyPlayerPressed[Command.KeyLeft] = false;
             if (e.KeyCode == Keys.D)
                 Controller.KeyPlayerPressed[Command.KeyRight] = false;
+            if (e.KeyCode == Keys.Space)
+                Controller.KeyPlayerPressed[Command.Shot] = false;
             if (e.KeyCode == Keys.Escape)
                 Controller.KeySystemPressed[Command.Esc] = false;
         }

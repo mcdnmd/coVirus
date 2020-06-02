@@ -160,6 +160,10 @@
     <None Include="Resources\greystone.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\zombie.png" />
+    <None Include="Resources\zombiDie.png" />
+    <None Include="Resources\dead_zombie.png" />
+    <None Include="Resources\zombie_cop.png" />
     <Content Include="virus.ico" />
   </ItemGroup>
   <ItemGroup>

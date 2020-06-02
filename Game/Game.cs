@@ -11,12 +11,14 @@ namespace _3DGame
 		public static int Width;
 		public static int Height;
         public static Queue<IEntity> AliveActors;
+        public static List<IEntity> Enemies;
 
         public static void InitGame()
         {
             Width = 24;
             Height = 24;
             AliveActors = Map.Actors;
+            Enemies = Map.Enemies;
         }
 
         public static void PlayRound()

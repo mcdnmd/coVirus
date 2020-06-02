@@ -47,7 +47,7 @@ namespace _3DGame
             Location = location;
             DirectionVector = dirVector;
             PlaneVector = planeVector;
-            FloorHitting();
+            //FloorHitting();
             for (int x = StartStrip; x < EndStrip; x++)
             {
                 //x-coordinate in camera space

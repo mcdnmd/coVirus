@@ -27,7 +27,7 @@ namespace _3DGame
             Health = 100;
             Alive = true;
             MoveSpeed = 0.6d;
-            RotationSpeed = 0.4d;
+            RotationSpeed = 0.2d;
             Weapon = null;
         }
 
@@ -40,7 +40,7 @@ namespace _3DGame
         public void CollectItem()
         {
             if (Map.TileMap[(int)Location.X, (int)Location.Y] == (int)Tail.Shotgun)
-                Weapon = (IWeapon) Map.EntityMap[new PointF(Location.X, Location.Y)];
+                Weapon = (IWeapon) Map.EntityMap[new PointF((int)Location.X, (int)Location.Y)];
         }
 
         public void HandleCommands()
@@ -70,8 +70,13 @@ namespace _3DGame
                     case Command.KeyLeft:
                         RotateVectorSystem(RotationSpeed);
                         break;
+                    case Command.Shot:
+                        if (Weapon is Shotgun)
+                            Weapon.Shot();
+                        break;
                 }
                 Location = new PointF(X, Y);
+                CollectItem();
             }
         }
 

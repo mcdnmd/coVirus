@@ -15,6 +15,7 @@ namespace _3DGame
         public static int[,] TileMap;
         public static Dictionary<PointF, IEntity> EntityMap;
         public static Queue<IEntity> Actors;
+        public static List<IEntity> Enemies;
         
 
         public static void CreateMap(ILevel level)
@@ -24,6 +25,7 @@ namespace _3DGame
             TileMap = new int[Width, Height];
             EntityMap = new Dictionary<PointF, IEntity>();
             Actors = new Queue<IEntity>();
+            Enemies = new List<IEntity>();
             CreateMaps(level.IntMap);
         }
 
@@ -44,6 +46,7 @@ namespace _3DGame
                             break;
                         case (int)Tail.Zombie:
                             EntityMap[location] = new Zombi(x, y);
+                            Enemies.Add(EntityMap[location]);
                             Actors.Enqueue(EntityMap[location]);
                             break;
                         case (int)Tail.Shotgun:

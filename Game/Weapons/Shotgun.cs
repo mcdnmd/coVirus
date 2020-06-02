@@ -41,10 +41,8 @@ namespace _3DGame
 
         public void Shot()
         {
-            wathc.Stop();
-            if (Ammo <= 0 || wathc.Elapsed.TotalSeconds < 2)
+            if (Ammo <= 0)
                 return;
-            wathc.Restart();
             Ammo--;
             FindEnemyInSpreadField();
             foreach (var enemy in Enemies)
@@ -60,8 +58,9 @@ namespace _3DGame
 
         public void GiveDamge(IEntity enemy)
         {
-            var distance = new PointF(enemy.Location.X - Game._Player.Location.X, enemy.Location.Y - Game._Player.Location.Y);
-            enemy.Health -= (int)(Damage / Math.Sqrt(distance.X * distance.X + distance.Y * distance.Y));
+            //var distance = new PointF(enemy.Location.X - Game._Player.Location.X, enemy.Location.Y - Game._Player.Location.Y);
+            //enemy.Health -= (int)(Damage / Math.Sqrt(distance.X * distance.X + distance.Y * distance.Y));
+            enemy.Alive = false;
         }
 
         public void Act()

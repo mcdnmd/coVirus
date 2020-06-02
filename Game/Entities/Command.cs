@@ -4,7 +4,6 @@
     KeyDown,
     KeyLeft,
     KeyRight,
-    MouseLeft,
-    MouseRight,
+    Shot,
     Esc
 }

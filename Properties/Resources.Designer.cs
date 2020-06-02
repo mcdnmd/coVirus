@@ -103,6 +103,16 @@ namespace _3DGame.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap dead_zombie {
+            get {
+                object obj = ResourceManager.GetObject("dead_zombie", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap floor {
             get {
                 object obj = ResourceManager.GetObject("floor", resourceCulture);
@@ -173,19 +183,9 @@ namespace _3DGame.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap zombi {
+        internal static System.Drawing.Bitmap zombie_cop {
             get {
-                object obj = ResourceManager.GetObject("zombi", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap zombi2 {
-            get {
-                object obj = ResourceManager.GetObject("zombi2", resourceCulture);
+                object obj = ResourceManager.GetObject("zombie_cop", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

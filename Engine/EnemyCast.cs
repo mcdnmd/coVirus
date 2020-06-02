@@ -28,18 +28,18 @@ namespace _3DGame
         {
             CastedEnemies = new List<IEntity>();
             var EnemiesDistance = new Dictionary<double, IEntity>();
-            foreach (var enemy in Game.AliveActors)
-                if (enemy is Zombi)
-                {
-                    var distance = (Game._Player.Location.X - enemy.Location.X) * (Game._Player.Location.X - enemy.Location.X) + (Game._Player.Location.Y - enemy.Location.Y) * (Game._Player.Location.Y - enemy.Location.Y);
-                    EnemiesDistance[distance] = enemy;
-                }
+            foreach (var enemy in Game.Enemies)
+            {
+                var distance = (Game._Player.Location.X - enemy.Location.X) * (Game._Player.Location.X - enemy.Location.X) + (Game._Player.Location.Y - enemy.Location.Y) * (Game._Player.Location.Y - enemy.Location.Y);
+                EnemiesDistance[distance] = enemy;
+            }
             var list = EnemiesDistance.Keys.ToList();
             list.Sort();
 
             for (int i = 0; i < EnemiesDistance.Count; i++)
             {
                 var casted = false;
+                var enemy = EnemiesDistance[list[i]];
                 var spriteX = EnemiesDistance[list[i]].Location.X - Game._Player.Location.X;
                 var spriteY = EnemiesDistance[list[i]].Location.Y - Game._Player.Location.Y;
                 var inverseDeterminant = 1.0 / (Camera.PlaneVector.X * Game._Player.DirectionVector.Y - Game._Player.DirectionVector.X * Camera.PlaneVector.Y);
@@ -70,7 +70,10 @@ namespace _3DGame
                             var d = Math.Abs((y) * 256 - Core.ScreenHeight * 128 + spriteHeight * 128); //256 and 128 factors to avoid floats
                             var texY = ((d * 64) / spriteHeight) / 256;
                             Color color;
-                            color = ScreenRender.Textures["Zombi"].GetPixel(texX, texY);
+                            if (enemy.Alive)
+                                color = ScreenRender.Textures["Zombi"].GetPixel(texX, texY);
+                            else
+                                color = ScreenRender.Textures["DeadZombi"].GetPixel(texX, texY);
                             if (color.R == 0 && color.G == 0 && color.B == 0)
                                 continue;
                             ScreenRender.Buffer[stripe / Core.LocalBufferSize].SetPixel(stripe % Core.LocalBufferSize, y, color);
