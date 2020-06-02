@@ -51,6 +51,7 @@ namespace _3DGame
                             break;
                         case (int)Tail.Shotgun:
                             EntityMap[location] = new Shotgun(x, y);
+                            Enemies.Add(EntityMap[location]);
                             break;
                     }
                 }

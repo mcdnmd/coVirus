@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Text;
 using System.Linq;
+using System.Media;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,21 +19,34 @@ namespace _3DGame
         private int MaxFPS = 70;
         private Timer timer = new Timer();
         private Stopwatch stopwatch;
+        private SoundPlayer BackMusic;
 
         public Form1()
         {
             InitializeComponent();
             InitStaticComponents();
-            ClientSize = new Size(400, 300);
+            ColdStartLoad();
+            timer.Interval = 1000 / MaxFPS;
+            timer.Tick += new EventHandler(TimerTick);
+            timer.Start();
+        }
+
+        private void ColdStartLoad()
+        {
+            ClientSize = new Size(320, 240);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Controller.MenuOn = true;
             Controller.SettingsOn = false;
             Controller.GameOn = false;
             Controller.GameMenuOn = false;
             stopwatch = new Stopwatch();
-            timer.Interval = 1000 / MaxFPS;
-            timer.Tick += new EventHandler(TimerTick);
-            timer.Start();
+            Health.BackColor = Color.FromArgb(171, 0, 9);
+            Health.Size = new Size((int)(Width * 0.2), (int)(Height * 0.2));
+            Health.Font = new Font(Controller.PFC.Families[0], 24);
+            Ammo.BackColor = Color.FromArgb(171, 0, 9);
+            Ammo.Size = new Size((int)(Width * 0.2), (int)(Height * 0.2));
+            Ammo.Font = new Font(Controller.PFC.Families[0], 24);
+            BackMusic = new SoundPlayer(Properties.Resources.backmusicd);
         }
 
         private void TimerTick(object sender, EventArgs args)
@@ -58,11 +72,14 @@ namespace _3DGame
                 Core.ParallelScreenRendering(e);
                 EnemyCast.Cast();
                 //ScreenRender.DrawWeapon();
-                ScreenRender.DrawBackground(e);
                 ScreenRender.DrawBuffer(e);
                 ScreenRender.DrawWeapon();
                 stopwatch.Stop();
-                label1.Text = "FPS: " + (int)(1000 / stopwatch.Elapsed.TotalMilliseconds) + " RenderTime: " + stopwatch.Elapsed.TotalMilliseconds + " Weapon:" + (Game._Player.Weapon is null);
+                FPS.Text = "FPS: " + (int)(1000 / stopwatch.Elapsed.TotalMilliseconds);
+                Health.Text = Game._Player.Health.ToString();
+                if (!(Game._Player.Weapon is null))
+                    Ammo.Text = Game._Player.Weapon.Ammo.ToString();
+            
             }
         }
 
@@ -77,7 +94,7 @@ namespace _3DGame
             if (e.KeyCode == Keys.D)
                 Controller.KeyPlayerPressed[Command.KeyRight] = true;
             if (e.KeyCode == Keys.Space)
-                Controller.KeyPlayerPressed[Command.Shot] = true;
+                Controller.ShotCommand.Enqueue(Command.Shot);
             if (e.KeyCode == Keys.Escape)
                 Controller.KeySystemPressed[Command.Esc] = true;
             
@@ -93,8 +110,6 @@ namespace _3DGame
                 Controller.KeyPlayerPressed[Command.KeyLeft] = false;
             if (e.KeyCode == Keys.D)
                 Controller.KeyPlayerPressed[Command.KeyRight] = false;
-            if (e.KeyCode == Keys.Space)
-                Controller.KeyPlayerPressed[Command.Shot] = false;
             if (e.KeyCode == Keys.Escape)
                 Controller.KeySystemPressed[Command.Esc] = false;
         }
@@ -117,21 +132,16 @@ namespace _3DGame
 
         private void InitStaticComponents()
         {
-            Map.CreateMap(new Level_1());
+            Map.CreateMap(new Level_2());
             Game.InitGame();
             Controller.InitController();
         }
 
         public new void Menu()
         {
-            label1.Visible = false;
-            var pfc = new PrivateFontCollection();
-            int fontLength = Properties.Resources.OCRAEXT.Length;
-            byte[] fontdata = Properties.Resources.OCRAEXT;
-            IntPtr data = Marshal.AllocCoTaskMem(fontLength);
-            Marshal.Copy(fontdata, 0, data, fontLength);
-            pfc.AddMemoryFont(data, fontLength);
-
+            FPS.Visible = false;
+            Health.Visible = false;
+            Ammo.Visible = false;
             var buttonColor = Color.FromArgb(171, 0, 9);
             BackColor = Color.FromArgb(236, 235, 233);
 
@@ -153,7 +163,7 @@ namespace _3DGame
                   "NEW GAME",
                   new Size(50, 25),
                   new Point(100, 100),
-                  new Font(pfc.Families[0], 14),
+                  new Font(Controller.PFC.Families[0], 14),
                   Color.FromArgb(0, 0, 0),
                   buttonColor);
             newGame.Dock = DockStyle.Fill;
@@ -162,7 +172,7 @@ namespace _3DGame
                   "SETTINGS",
                   new Size(100, 50),
                   new Point(100, 100),
-                  new Font(pfc.Families[0], 14),
+                  new Font(Controller.PFC.Families[0], 14),
                   Color.FromArgb(0, 0, 0),
                   buttonColor);
             settings.Dock = DockStyle.Fill;
@@ -171,7 +181,7 @@ namespace _3DGame
                 "EXIT",
                 new Size(100, 50),
                 new Point(100, 25),
-                new Font(pfc.Families[0], 14),
+                new Font(Controller.PFC.Families[0], 14),
                 Color.FromArgb(0, 0, 0),
                 buttonColor);
             exit.Dock = DockStyle.Fill;
@@ -208,23 +218,20 @@ namespace _3DGame
         {
             Controller.MenuOn = false;
             Controller.GameOn = true;
+            FPS.Visible = true;
+            Health.Visible = true;
+            Ammo.Visible = true;
             Controls.Clear();
-            Controls.Add(label1);
-            BackColor = Color.Empty;
-            label1.Visible = true;
+            Controls.Add(FPS);
+            Controls.Add(Health);
+            Controls.Add(Ammo);
+            //BackMusic.Play();
             Focus();
             Invalidate();
         }
 
         private void Settings()
         {
-            var pfc = new PrivateFontCollection();
-            int fontLength = Properties.Resources.OCRAEXT.Length;
-            byte[] fontdata = Properties.Resources.OCRAEXT;
-            IntPtr data = Marshal.AllocCoTaskMem(fontLength);
-            Marshal.Copy(fontdata, 0, data, fontLength);
-            pfc.AddMemoryFont(data, fontLength);
-
             var buttonColor = Color.FromArgb(171, 0, 9);
             BackColor = Color.FromArgb(236, 235, 233);
 
@@ -246,7 +253,7 @@ namespace _3DGame
                   "Screen Resolution",
                   new Size(50, 20),
                   new Point(100, 100),
-                  new Font(pfc.Families[0], 14),
+                  new Font(Controller.PFC.Families[0], 14),
                   Color.FromArgb(0, 0, 0),
                   Color.Empty);
             text.Dock = DockStyle.Fill;
@@ -255,7 +262,7 @@ namespace _3DGame
                   "320x240 Medium (Recommended)",
                   new Size(50, 50),
                   new Point(100, 100),
-                  new Font(pfc.Families[0], 14),
+                  new Font(Controller.PFC.Families[0], 14),
                   Color.FromArgb(0, 0, 0),
                   buttonColor);
             resolutionMedium.Dock = DockStyle.Fill;
@@ -264,7 +271,7 @@ namespace _3DGame
                 "400x300 High",
                 new Size(50, 50),
                 new Point(100, 25),
-                new Font(pfc.Families[0], 14),
+                new Font(Controller.PFC.Families[0], 14),
                 Color.FromArgb(0, 0, 0),
                 buttonColor);
             resolutionHigh.Dock = DockStyle.Fill;
@@ -273,7 +280,7 @@ namespace _3DGame
                 "800x600 Extra (RTX only)",
                 new Size(50, 50),
                 new Point(100, 25),
-                new Font(pfc.Families[0], 14),
+                new Font(Controller.PFC.Families[0], 14),
                 Color.FromArgb(0, 0, 0),
                 buttonColor);
             resolutionExtra.Dock = DockStyle.Fill;
@@ -358,7 +365,10 @@ namespace _3DGame
 
         private void GameMenu()
         {
-            label1.Visible = false;
+            FPS.Visible = false;
+            Health.Visible = false;
+            Ammo.Visible = false;
+            BackMusic.Stop();
             var pfc = new PrivateFontCollection();
             int fontLength = Properties.Resources.OCRAEXT.Length;
             byte[] fontdata = Properties.Resources.OCRAEXT;
@@ -428,6 +438,12 @@ namespace _3DGame
         {
             Controller.GameMenuOn = false;
             Controls.Clear();
+            Controls.Add(FPS);
+            Controls.Add(Health);
+            FPS.Visible = true;
+            Health.Visible = true;
+            Ammo.Visible = true;
+            //BackMusic.Play();
             Focus();
             Invalidate();
         }

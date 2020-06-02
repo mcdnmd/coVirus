@@ -70,17 +70,19 @@ namespace _3DGame
                             var d = Math.Abs((y) * 256 - Core.ScreenHeight * 128 + spriteHeight * 128); //256 and 128 factors to avoid floats
                             var texY = ((d * 64) / spriteHeight) / 256;
                             Color color;
-                            if (enemy.Alive)
+                            if (enemy.Alive && enemy is Zombi)
                                 color = ScreenRender.Textures["Zombi"].GetPixel(texX, texY);
-                            else
+                            else if (enemy is Zombi)
                                 color = ScreenRender.Textures["DeadZombi"].GetPixel(texX, texY);
+                            else
+                                color = ScreenRender.Textures["DoubleBarrel"].GetPixel(texX, texY);
                             if (color.R == 0 && color.G == 0 && color.B == 0)
                                 continue;
                             ScreenRender.Buffer[stripe / Core.LocalBufferSize].SetPixel(stripe % Core.LocalBufferSize, y, color);
                         }
                         if (!casted)
                         {
-                            CastedEnemies.Add(EnemiesDistance[list[i]]);
+                            CastedEnemies.Add(enemy);
                             casted = true;
                         }
                         

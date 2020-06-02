@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing.Text;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 namespace _3DGame
@@ -8,11 +11,12 @@ namespace _3DGame
         public static Queue<Keys> PressedKeys;
         public static Dictionary<Command, bool> KeyPlayerPressed;
         public static Dictionary<Command, bool> KeySystemPressed;
-        public static Queue<string> MouseMovements;
+        public static Queue<Command> ShotCommand;
         public static bool MenuOn;
         public static bool SettingsOn;
         public static bool GameOn;
         public static bool GameMenuOn;
+        public static PrivateFontCollection PFC;
 
         public static void InitController()
         {
@@ -24,7 +28,13 @@ namespace _3DGame
             KeyPlayerPressed[Command.KeyLeft] = false;
             KeySystemPressed = new Dictionary<Command, bool>();
             KeySystemPressed[Command.Esc] = false;
-            MouseMovements = new Queue<string>();
+            ShotCommand = new Queue<Command>();
+            PFC = new PrivateFontCollection();
+            int fontLength = Properties.Resources.OCRAEXT.Length;
+            byte[] fontdata = Properties.Resources.OCRAEXT;
+            IntPtr data = Marshal.AllocCoTaskMem(fontLength);
+            Marshal.Copy(fontdata, 0, data, fontLength);
+            PFC.AddMemoryFont(data, fontLength);
         }
 
         public static void Acting()
@@ -35,6 +45,8 @@ namespace _3DGame
 
         private static void HandleKeyPressed()
         {
+            while (ShotCommand.Count != 0)
+                Game._Player.Commands.Enqueue(ShotCommand.Dequeue());
             foreach (var command in KeyPlayerPressed)
                 if (command.Value)
                     Game._Player.Commands.Enqueue(command.Key);

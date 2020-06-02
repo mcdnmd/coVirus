@@ -12,6 +12,7 @@ namespace _3DGame
         public PointF DirectionVector;
         public double MoveSpeed;
         public int DamageDistance;
+        public double DistanceToPlayer;
         public Random random = new Random();
 
         public Zombi(int x, int y)
@@ -32,6 +33,8 @@ namespace _3DGame
             if (Alive)
             {
                 Move();
+                if (DistanceToPlayer < 1)
+                    GiveDamage(Game._Player);
                 Game.AliveActors.Enqueue(this);
                 return;
             }
@@ -40,8 +43,15 @@ namespace _3DGame
         private void Move()
         {
             double xDes, yDes;
-            var rush = random.Next(1, 10);
-            if (rush > 5)
+            xDes = Game._Player.Location.X - Location.X;
+            yDes = Game._Player.Location.Y - Location.Y;
+            DistanceToPlayer = Math.Sqrt(xDes * xDes + yDes * yDes);
+            if (DistanceToPlayer < 4)
+            {
+                xDes = (float)(xDes / DistanceToPlayer);
+                yDes = (float)(yDes / DistanceToPlayer);
+            }
+            else
             {
                 var minusX = random.NextDouble();
                 var minusY = random.NextDouble();
@@ -51,14 +61,6 @@ namespace _3DGame
                     xDes *= (-1);
                 if (minusY < 0.5d)
                     yDes *= (-1);
-            }
-            else
-            {
-                xDes = Game._Player.Location.X - Location.X;
-                yDes = Game._Player.Location.Y - Location.Y;
-                var desLength = Math.Sqrt(xDes * xDes + yDes * yDes);
-                xDes = (float)(xDes / desLength);
-                yDes = (float)(yDes / desLength);
             }
             DirectionVector = new PointF((float)xDes, (float)yDes);
             float X = Location.X;
@@ -72,7 +74,7 @@ namespace _3DGame
 
         private void GiveDamage(IEntity player)
         {
-            player.Health -= 1;
+            player.Health -= 5;
         }
     }
 }

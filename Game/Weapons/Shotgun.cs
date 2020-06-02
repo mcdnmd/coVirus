@@ -24,7 +24,7 @@ namespace _3DGame
 
         public Shotgun(int x, int y)
         {
-            Damage = 9000;
+            Damage = 500;
             DamageDistance = 60;
             Ammo = 10;
             MaxAmmo = 50;
@@ -47,7 +47,6 @@ namespace _3DGame
             FindEnemyInSpreadField();
             foreach (var enemy in Enemies)
                 GiveDamge(enemy);
-
         }
 
         private void FindEnemyInSpreadField()
@@ -55,12 +54,11 @@ namespace _3DGame
             Enemies = EnemyCast.CastedEnemies;
         }
         
-
         public void GiveDamge(IEntity enemy)
         {
-            //var distance = new PointF(enemy.Location.X - Game._Player.Location.X, enemy.Location.Y - Game._Player.Location.Y);
+            var distance = new PointF(enemy.Location.X - Game._Player.Location.X, enemy.Location.Y - Game._Player.Location.Y);
             //enemy.Health -= (int)(Damage / Math.Sqrt(distance.X * distance.X + distance.Y * distance.Y));
-            enemy.Alive = false;
+            enemy.Health -= (int)(Damage * 1 / Math.Sqrt(distance.X * distance.X + distance.Y * distance.Y));
         }
 
         public void Act()

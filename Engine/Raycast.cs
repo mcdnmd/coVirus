@@ -47,7 +47,7 @@ namespace _3DGame
             Location = location;
             DirectionVector = dirVector;
             PlaneVector = planeVector;
-            //FloorHitting();
+            FloorHitting();
             for (int x = StartStrip; x < EndStrip; x++)
             {
                 //x-coordinate in camera space
@@ -137,12 +137,7 @@ namespace _3DGame
                     int ty = (int)(64 * (floorY - cellY)) & (64 - 1);
                     floorX += floorStepX;
                     floorY += floorStepY;
-                    Color color;
-                    lock (ScreenRender.Textures)
-                    {
-                        color = ScreenRender.Textures["Floor"].GetPixel(tx, ty);
-                    }
-                    Buffer.SetPixel(x % (EndStrip - StartStrip), y, color);
+                    Buffer.SetPixel(x % (EndStrip - StartStrip), y, Color.DimGray);
                 }
             } 
         }

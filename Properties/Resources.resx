@@ -121,6 +121,9 @@
   <data name="arm1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\arm1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="backmusicd" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\backmusicd.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="barrel" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\barrel.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -132,6 +135,9 @@
   </data>
   <data name="dead_zombie" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\dead_zombie.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DoubleBarel" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DoubleBarel.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="floor" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\floor.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

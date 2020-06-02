@@ -15,9 +15,6 @@ namespace _3DGame
         public static List<Bitmap> Buffer;
         public static double[] ZBuffer;
         public static Dictionary<string, Bitmap> Textures;
-        private static Rectangle skyRectangle;
-        private static Rectangle floorRectangle;
-        private static TextureBrush textureSky;
         public static int TextureSize = 64;
 
         public static void InitScreenRender()
@@ -25,10 +22,7 @@ namespace _3DGame
             ZBuffer = new double[Core.ScreenWidth];
             Buffer = new List<Bitmap>();
             Textures = new Dictionary<string, Bitmap>();
-            skyRectangle = new Rectangle(0, 0, Core.ScreenWidth, Core.ScreenHeight / 2);
-            floorRectangle = new Rectangle(0, Core.ScreenHeight / 2, Core.ScreenWidth, Core.ScreenHeight / 2);
             LoadTextures();
-            textureSky = new TextureBrush(Textures["Sky"]);
         }
 
         public static void Clear(PaintEventArgs e)
@@ -39,7 +33,7 @@ namespace _3DGame
         public static void DrawBuffer(PaintEventArgs e)
         {
             ScreenGraphics = e.Graphics;
-            ScreenGraphics.Clear(Color.Black);
+            ScreenGraphics.Clear(Color.Empty);
             var start = 0;
             for (int i = 0; i < Core.CPUNumber; i++)
             {
@@ -49,15 +43,8 @@ namespace _3DGame
             for (int k = 0; k < Core.CPUNumber; k++)
             {
                 var g = Graphics.FromImage(Buffer[k]);
-                g.Clear(Color.White);
+                g.Clear(Color.SkyBlue);
             }
-        }
-
-        public static void DrawBackground(PaintEventArgs e)
-        {
-            ScreenGraphics = e.Graphics;
-            ScreenGraphics.FillRectangle(textureSky, skyRectangle);
-            ScreenGraphics.FillRectangle(Brushes.Gray, floorRectangle);
         }
 
         public static void DrawWeapon()
@@ -103,6 +90,7 @@ namespace _3DGame
             Textures["Barrel"] = new Bitmap(Properties.Resources.barrel);
             Textures["Shotgun"] = new Bitmap(Properties.Resources.bombom1);
             Textures["Arm"] = new Bitmap(Properties.Resources.arm1);
+            Textures["DoubleBarrel"] = new Bitmap(Properties.Resources.DoubleBarel);
         }
     }
 }

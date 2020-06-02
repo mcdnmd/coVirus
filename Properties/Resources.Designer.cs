@@ -71,6 +71,15 @@ namespace _3DGame.Properties {
         }
         
         /// <summary>
+        ///   Поиск локализованного ресурса типа System.IO.UnmanagedMemoryStream, аналогичного System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream backmusicd {
+            get {
+                return ResourceManager.GetStream("backmusicd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap barrel {
@@ -106,6 +115,16 @@ namespace _3DGame.Properties {
         internal static System.Drawing.Bitmap dead_zombie {
             get {
                 object obj = ResourceManager.GetObject("dead_zombie", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap DoubleBarel {
+            get {
+                object obj = ResourceManager.GetObject("DoubleBarel", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

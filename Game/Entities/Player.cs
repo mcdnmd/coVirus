@@ -26,21 +26,32 @@ namespace _3DGame
             Commands = new Queue<Command>();
             Health = 100;
             Alive = true;
-            MoveSpeed = 0.6d;
+            MoveSpeed = 0.4d;
             RotationSpeed = 0.2d;
             Weapon = null;
         }
 
         public void Act()
         {
-            HandleCommands();
-            Game.AliveActors.Enqueue(this);
+            if (Health > 0)
+            {
+                HandleCommands();
+                Game.AliveActors.Enqueue(this);
+            }
+            else
+                Controller.MenuOn = true;
         }
 
         public void CollectItem()
         {
             if (Map.TileMap[(int)Location.X, (int)Location.Y] == (int)Tail.Shotgun)
-                Weapon = (IWeapon) Map.EntityMap[new PointF((int)Location.X, (int)Location.Y)];
+            {
+                Weapon = (IWeapon)Map.EntityMap[new PointF((int)Location.X, (int)Location.Y)];
+                for (int i = 0; i < Game.Enemies.Count; i++)
+                    if (Game.Enemies[i] == Weapon)
+                        Game.Enemies.RemoveAt(i);
+            }
+                
         }
 
         public void HandleCommands()
