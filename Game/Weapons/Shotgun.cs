@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace _3DGame
 {
@@ -26,12 +23,12 @@ namespace _3DGame
         {
             Damage = 500;
             DamageDistance = 60;
-            Ammo = 10;
+            Ammo = 20;
             MaxAmmo = 50;
             Location = new PointF(x, y);
             Health = int.MinValue;
             Alive = false;
-            var FOSProjection = (int) Core.ScreenWidth * 0.6;
+            var FOSProjection = (int)Core.ScreenWidth * 0.6;
             StartStrip = (int)((Core.ScreenWidth - FOSProjection) / 2);
             EndStrip = Core.ScreenWidth - StartStrip + 1;
             Enemies = new List<IEntity>();
@@ -53,7 +50,7 @@ namespace _3DGame
         {
             Enemies = EnemyCast.CastedEnemies;
         }
-        
+
         public void GiveDamge(IEntity enemy)
         {
             var distance = new PointF(enemy.Location.X - Game._Player.Location.X, enemy.Location.Y - Game._Player.Location.Y);

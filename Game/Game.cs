@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Windows.Forms;
+﻿using System.Collections.Generic;
 
 namespace _3DGame
 {
     public static class Game
     {
         public static Player _Player;
-		public static int Width;
-		public static int Height;
+        public static int Width;
+        public static int Height;
         public static Queue<IEntity> AliveActors;
         public static List<IEntity> Enemies;
 

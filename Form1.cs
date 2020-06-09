@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Text;
-using System.Linq;
 using System.Media;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace _3DGame
@@ -79,7 +73,7 @@ namespace _3DGame
                 Health.Text = Game._Player.Health.ToString();
                 if (!(Game._Player.Weapon is null))
                     Ammo.Text = Game._Player.Weapon.Ammo.ToString();
-            
+
             }
         }
 
@@ -97,7 +91,7 @@ namespace _3DGame
                 Controller.ShotCommand.Enqueue(Command.Shot);
             if (e.KeyCode == Keys.Escape)
                 Controller.KeySystemPressed[Command.Esc] = true;
-            
+
         }
 
         protected override void OnKeyUp(KeyEventArgs e)
@@ -216,6 +210,7 @@ namespace _3DGame
 
         private void NewGameOnClick(object sender, EventArgs e)
         {
+            InitStaticComponents();
             Controller.MenuOn = false;
             Controller.GameOn = true;
             FPS.Visible = true;
@@ -429,7 +424,7 @@ namespace _3DGame
 
             Controls.Add(table);
 
-            continueGame.Click +=continueGameOnClick;
+            continueGame.Click += continueGameOnClick;
             settings.Click += settingsOnClick;
             exit.Click += ExitOnClick;
         }

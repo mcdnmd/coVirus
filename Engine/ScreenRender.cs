@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace _3DGame
@@ -22,7 +18,7 @@ namespace _3DGame
             ZBuffer = new double[Core.ScreenWidth];
             Buffer = new List<Bitmap>();
             Textures = new Dictionary<string, Bitmap>();
-            LoadTextures();
+            LoadTextures(Textures);
         }
 
         public static void Clear(PaintEventArgs e)
@@ -73,24 +69,24 @@ namespace _3DGame
             //    }
             //}
             if (Game._Player.Weapon is Shotgun)
-                ScreenGraphics.DrawImage(Textures["Shotgun"],new Point(Core.ScreenWidth/2, Core.ScreenHeight-100));
+                ScreenGraphics.DrawImage(Textures["Shotgun"], new Point(Core.ScreenWidth / 2, Core.ScreenHeight - 100));
             else
                 ScreenGraphics.DrawImage(Textures["Arm"], new Point(Core.ScreenWidth / 2, Core.ScreenHeight - 100));
         }
 
 
-        private static void LoadTextures()
+        public static void LoadTextures(Dictionary<string, Bitmap> textures)
         {
-            Textures["Wall"] = new Bitmap(Properties.Resources.brick2);
-            Textures["Floor"] = new Bitmap(Properties.Resources.greystone);
-            Textures["Floor2"] = new Bitmap(Properties.Resources.floor2);
-            Textures["Sky"] = new Bitmap(Properties.Resources.sky1);
-            Textures["Zombi"] = new Bitmap(Properties.Resources.zombie_cop);
-            Textures["DeadZombi"] = new Bitmap(Properties.Resources.dead_zombie);
-            Textures["Barrel"] = new Bitmap(Properties.Resources.barrel);
-            Textures["Shotgun"] = new Bitmap(Properties.Resources.bombom1);
-            Textures["Arm"] = new Bitmap(Properties.Resources.arm1);
-            Textures["DoubleBarrel"] = new Bitmap(Properties.Resources.DoubleBarel);
+            textures["Wall"] = new Bitmap(Properties.Resources.brick2);
+            textures["Floor"] = new Bitmap(Properties.Resources.greystone);
+            textures["Floor2"] = new Bitmap(Properties.Resources.floor2);
+            textures["Sky"] = new Bitmap(Properties.Resources.sky1);
+            textures["Zombi"] = new Bitmap(Properties.Resources.zombie_cop);
+            textures["DeadZombi"] = new Bitmap(Properties.Resources.dead_zombie);
+            textures["Barrel"] = new Bitmap(Properties.Resources.barrel);
+            textures["Shotgun"] = new Bitmap(Properties.Resources.bombom1);
+            textures["Arm"] = new Bitmap(Properties.Resources.arm1);
+            textures["DoubleBarrel"] = new Bitmap(Properties.Resources.DoubleBarel);
         }
     }
 }

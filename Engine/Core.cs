@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -16,7 +16,9 @@ namespace _3DGame
 
         public static void InitCore(int width, int height)
         {
-            CPUNumber = 4;
+            CPUNumber = Environment.ProcessorCount;
+            if (CPUNumber > 4)
+                CPUNumber = 4;
             LocalBufferSize = width / CPUNumber;
             ScreenWidth = width;
             ScreenHeight = height;
@@ -28,15 +30,25 @@ namespace _3DGame
         {
             RaycastAreas = new Raycast[CPUNumber];
             // indexOutOfRange maybe
-            for (int i = 0; i < ScreenWidth; i += LocalBufferSize) 
+            for (int i = 0; i < ScreenWidth; i += LocalBufferSize)
             {
+                var textures = CreateTextureCopy();
                 ScreenRender.Buffer.Add(new Bitmap(LocalBufferSize, ScreenHeight));
                 RaycastAreas[i / LocalBufferSize] = new Raycast(i,
                 i + LocalBufferSize,
-                ScreenRender.Buffer[i/LocalBufferSize],
+                ScreenRender.Buffer[i / LocalBufferSize],
                 ScreenWidth,
-                ScreenHeight);
+                ScreenHeight,
+                textures);
             }
+        }
+
+        private static Dictionary<string, Bitmap> CreateTextureCopy()
+        {
+            var result = new Dictionary<string, Bitmap>();
+            ScreenRender.LoadTextures(result);
+            return result;
+
         }
 
         public static void ParallelScreenRendering(PaintEventArgs e)

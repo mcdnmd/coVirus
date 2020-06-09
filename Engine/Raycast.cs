@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace _3DGame
 {
@@ -31,8 +27,10 @@ namespace _3DGame
         public PointF DirectionVector;
         public PointF PlaneVector;
         public PointF Location;
+        public Dictionary<string, Bitmap> LocalTextures;
+        public double[] LocalZBuffer;
 
-        public Raycast(int start, int end, Bitmap buffer, int width, int height)
+        public Raycast(int start, int end, Bitmap buffer, int width, int height, Dictionary<string, Bitmap> textures)
         {
             StartStrip = start;
             EndStrip = end;
@@ -40,7 +38,9 @@ namespace _3DGame
             Buffer = buffer;
             ScreenWidth = width;
             ScreenHeight = height;
-        }   
+            LocalTextures = textures;
+            LocalZBuffer = new double[Core.LocalBufferSize];
+        }
 
         public void Cast(PointF location, PointF dirVector, PointF planeVector)
         {
@@ -51,7 +51,7 @@ namespace _3DGame
             for (int x = StartStrip; x < EndStrip; x++)
             {
                 //x-coordinate in camera space
-                cameraPlaneX = 2 * x / (double) ScreenWidth - 1;
+                cameraPlaneX = 2 * x / (double)ScreenWidth - 1;
 
                 _Ray.DirectionX = DirectionVector.X + PlaneVector.X * cameraPlaneX;
                 _Ray.DirectionY = DirectionVector.Y + PlaneVector.Y * cameraPlaneX;
@@ -99,17 +99,11 @@ namespace _3DGame
                 int texY = (int)texPos & (64 - 1);
                 texPos += step;
                 Color color;
-                lock (ScreenRender.Textures) 
-                { 
-                    color = ScreenRender.Textures["Wall"].GetPixel(texX, texY); 
-                }
-                if (HittedSide == 1) 
+                color = LocalTextures["Wall"].GetPixel(texX, texY);
+                if (HittedSide == 1)
                     color = Color.FromArgb(color.R / 2, color.G / 2, color.B / 2);
                 Buffer.SetPixel(x % (EndStrip - StartStrip), y, color);
-                lock (ScreenRender.ZBuffer)
-                {
-                    ScreenRender.ZBuffer[x] = WallDistance;
-                }
+                LocalZBuffer[x % Core.LocalBufferSize] = WallDistance;
             }
         }
 
@@ -139,7 +133,7 @@ namespace _3DGame
                     floorY += floorStepY;
                     Buffer.SetPixel(x % (EndStrip - StartStrip), y, Color.DimGray);
                 }
-            } 
+            }
         }
 
         private void WallHitting()
@@ -147,7 +141,7 @@ namespace _3DGame
             var hit = 0;
             while (hit == 0)
             {
-                if(SideDistanceX < SideDistanceY)
+                if (SideDistanceX < SideDistanceY)
                 {
                     SideDistanceX += DeltaDistanceX;
                     MapX += StepX;
@@ -159,14 +153,15 @@ namespace _3DGame
                     MapY += StepY;
                     HittedSide = 1;
                 }
-                lock (Map.TileMap) {
+                lock (Map.TileMap)
+                {
                     if (Map.TileMap[MapX, MapY] == 1)
                         hit = 1;
                 }
             }
         }
 
-        
+
 
         private void CalculateStepAndSideDistance()
         {

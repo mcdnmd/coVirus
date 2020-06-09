@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace _3DGame
 {
     public class Player : IEntity
     {
-        public PointF Location { get; set;  }
+        public PointF Location { get; set; }
         public int Health { get; set; }
         public bool Alive { get; set; }
         public PointF DirectionVector;
@@ -26,8 +23,8 @@ namespace _3DGame
             Commands = new Queue<Command>();
             Health = 100;
             Alive = true;
-            MoveSpeed = 0.4d;
-            RotationSpeed = 0.2d;
+            MoveSpeed = 0.2d;
+            RotationSpeed = 0.1d;
             Weapon = null;
         }
 
@@ -39,7 +36,10 @@ namespace _3DGame
                 Game.AliveActors.Enqueue(this);
             }
             else
+            {
                 Controller.MenuOn = true;
+                Controller.GameOn = false;
+            }
         }
 
         public void CollectItem()
@@ -51,7 +51,6 @@ namespace _3DGame
                     if (Game.Enemies[i] == Weapon)
                         Game.Enemies.RemoveAt(i);
             }
-                
         }
 
         public void HandleCommands()

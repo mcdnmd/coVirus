@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace _3DGame
 {
@@ -24,19 +20,19 @@ namespace _3DGame
             {
                 W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,
                 W,O,O,O,O,O,O,O,W,O,O,O,O,O,O,O,O,O,O,O,O,O,O,W,
-                W,O,O,O,W,O,Z,O,O,O,O,O,O,O,O,O,O,O,O,O,O,O,O,W,
+                W,O,O,O,W,O,Z,O,O,O,O,O,Z,O,O,O,O,O,O,O,O,O,O,W,
                 W,W,O,W,W,W,W,W,W,O,O,O,O,O,O,O,O,O,O,O,O,O,O,W,
                 W,O,O,O,W,O,O,O,W,O,O,W,W,W,W,W,W,W,O,O,O,O,O,W,
                 W,O,W,O,O,O,W,O,W,O,O,W,O,O,O,O,O,W,O,O,O,O,O,W,
                 W,O,O,Z,W,O,O,O,W,O,O,W,O,O,O,O,O,W,O,O,O,O,O,W,
-                W,O,W,O,O,O,W,O,W,O,O,W,O,O,O,O,O,O,O,O,O,O,O,W,
+                W,O,W,O,O,O,W,O,W,O,O,W,O,O,Z,O,O,O,O,O,O,O,O,W,
                 W,O,O,O,W,O,O,O,W,O,O,W,O,O,O,O,O,W,O,O,O,O,O,W,
                 W,O,W,O,W,W,W,O,W,O,O,W,O,O,O,O,O,W,O,O,O,O,O,W,
-                W,O,O,O,O,O,O,O,O,O,O,W,W,W,W,W,W,W,O,O,O,O,O,W,
-                W,O,O,O,O,O,O,O,O,O,O,W,O,O,O,O,O,W,O,O,O,O,O,W,
-                W,O,O,O,O,O,O,O,O,O,O,W,O,O,O,O,O,W,O,O,O,O,O,W,
-                W,O,O,O,O,O,O,O,O,Z,O,W,O,O,O,O,O,O,O,O,O,O,O,W,
-                W,O,O,O,O,O,O,O,W,O,O,W,O,O,O,O,O,W,O,O,O,O,O,W,
+                W,O,O,O,O,O,O,O,O,O,O,W,W,W,W,W,W,W,O,Z,O,O,O,W,
+                W,O,O,O,O,O,Z,O,O,O,O,W,O,O,O,O,O,W,O,O,O,O,O,W,
+                W,O,O,Z,O,O,O,O,O,O,O,W,O,O,O,O,O,W,O,O,O,O,O,W,
+                W,O,O,O,O,O,O,O,O,Z,O,W,O,O,O,O,O,O,O,O,O,Z,O,W,
+                W,O,O,O,O,Z,O,O,W,O,O,W,O,O,O,O,O,W,O,O,O,O,O,W,
                 W,O,O,W,O,W,O,O,W,O,O,W,O,O,O,O,O,W,O,O,O,O,O,W,
                 W,O,O,W,O,W,W,O,W,O,O,W,W,W,W,W,W,W,O,O,O,O,O,W,
                 W,O,O,W,O,O,W,O,W,O,O,W,O,O,O,O,O,W,O,O,O,O,O,W,

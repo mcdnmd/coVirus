@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace _3DGame
 {
@@ -45,25 +43,25 @@ namespace _3DGame
                 var inverseDeterminant = 1.0 / (Camera.PlaneVector.X * Game._Player.DirectionVector.Y - Game._Player.DirectionVector.X * Camera.PlaneVector.Y);
                 var transformX = inverseDeterminant * (Game._Player.DirectionVector.Y * spriteX - Game._Player.DirectionVector.X * spriteY);
                 var transformY = inverseDeterminant * (-Camera.PlaneVector.Y * spriteX + Camera.PlaneVector.X * spriteY);
-                var spriteScreenX = (int)(Core.ScreenWidth/2 * (1+transformX / transformY)); 
+                var spriteScreenX = (int)(Core.ScreenWidth / 2 * (1 + transformX / transformY));
                 var spriteHeight = Math.Abs((int)(Core.ScreenHeight / transformY));
                 var drawStartY = -spriteHeight / 2 + Core.ScreenHeight / 2;
-                if (drawStartY < 0) 
+                if (drawStartY < 0)
                     drawStartY = 0;
                 var drawEndY = spriteHeight / 2 + Core.ScreenHeight / 2;
-                if (drawEndY >= Core.ScreenHeight) 
+                if (drawEndY >= Core.ScreenHeight)
                     drawEndY = Core.ScreenHeight - 1;
                 var spriteWidth = Math.Abs((int)(Core.ScreenWidth / transformY)); // int spriteWidth = abs( int (h / (transformY))) 
                 var drawStartX = -spriteWidth / 2 + spriteScreenX;
-                if (drawStartX < 0) 
+                if (drawStartX < 0)
                     drawStartX = 0;
                 var drawEndX = spriteWidth / 2 + spriteScreenX;
-                if (drawEndX >= Core.ScreenWidth) 
+                if (drawEndX >= Core.ScreenWidth)
                     drawEndX = Core.ScreenWidth - 1;
                 for (int stripe = drawStartX; stripe < drawEndX; stripe++)
                 {
                     int texX = (256 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * 64 / spriteWidth) / 256;
-                    if (transformY > 0 && stripe > 0 && stripe < Core.ScreenWidth && transformY < ScreenRender.ZBuffer[stripe])
+                    if (transformY > 0 && stripe > 0 && stripe < Core.ScreenWidth && transformY < Core.RaycastAreas[stripe / Core.LocalBufferSize].LocalZBuffer[stripe % Core.LocalBufferSize])
                     {
                         for (int y = drawStartY; y < drawEndY; y++) //for every pixel of the current stripe
                         {
@@ -85,7 +83,7 @@ namespace _3DGame
                             CastedEnemies.Add(enemy);
                             casted = true;
                         }
-                        
+
                     }
                 }
 

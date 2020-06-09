@@ -1,13 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
 
 namespace _3DGame
 {
     public class Level_1 : ILevel
     {
         public int[] IntMap { get; set; }
-        public Dictionary<char, int> ByteEntityRelation { get; set; } 
+        public Dictionary<char, int> ByteEntityRelation { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
         public int W = (int)Tail.Wall;

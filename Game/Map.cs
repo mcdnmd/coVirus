@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace _3DGame
 {
@@ -16,7 +11,7 @@ namespace _3DGame
         public static Dictionary<PointF, IEntity> EntityMap;
         public static Queue<IEntity> Actors;
         public static List<IEntity> Enemies;
-        
+
 
         public static void CreateMap(ILevel level)
         {
